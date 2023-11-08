@@ -27,6 +27,11 @@ namespace Common
             dictionary.Add(14, "hamalau");
 
             string asString = dictionary.AsString();
+            if (asString == null)
+            {
+                Console.WriteLine($"AsString() is not yet implemented");
+                return false;
+            }    
             for (int i = 1; i < 16; i++)
             {
                 if (!asString.Contains($"[{i}-"))
