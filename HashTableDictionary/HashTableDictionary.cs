@@ -9,7 +9,8 @@ public class HashTableDictionaryItem<TKey, TValue>
 
     public HashTableDictionaryItem(TKey key, TValue value)
     {
-        //TODO #1: Initialize this object's member variables/attributes
+        Key = key;
+        Value = value;
     }
 
     public string AsString()
@@ -24,7 +25,8 @@ public class HashTableDictionaryItem<TKey, TValue>
 public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {
     int NumElements = 0;
-    public HashTableDictionaryItem<TKey, TValue>[] Entries;
+    //TODO #1: Copy your implementation of GenericList to the project HashTableDictionary and use it to declare Entries: an array of lists of HashTableDictionaryItem<TKey,TValue>
+    //[USE GenericList and HashTableDictionaryItem HERE] [] Entries;
 
     public HashTableDictionary(int maxSize = 100000)
     {
@@ -35,46 +37,53 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         string output = null;
 
-        for (int i = 0; i < Entries.Length; i++)
-        {
-            if (Entries[i] != null)
-                output += Entries[i].AsString();
-        }
+        //TODO #3: Uncomment this
+
+        //for (int i = 0; i < Entries.Length; i++)
+        //{
+        //    if (Entries[i] != null)
+        //    {
+        //        for (int j = 0; j < Entries[i].Count(); j++)
+        //        {
+        //            HashTableDictionaryItem<TKey, TValue> entry = Entries[i].Get(j);
+        //            output += entry.AsString();
+        //        }
+        //    }
+        //}
 
         return output;
     }
 
     public int Count()
     {
-        //TODO #3: Return the number of elements (NumElements: make sure this member variable/attribute is updated when needed)
+        //TODO #4: Return the number of elements (NumElements: make sure this member variable/attribute is updated when the number of elements changes)
         return 0;
     }
 
     public int FindKey(TKey key)
     {
-        //TODO #4:  Find where the key is in the array, or an empty place on the array where we can store this key
-        //          First, we will use key.GetHashCode() to calculate the hash function and use to calculate the index
-        //          If that position is not empty, we will look the next one until we find an empty place
-        //          Notes:  a) GetHashCode() return very large integer numbers, but we need to map this value to the range [0, Entries.Length-1]
-        //                  b) The key may already be in the array, so we have to check if an entry is empty AND is not equal to our key
+        //TODO #4:  Calculate in which entry should this key be stored and return it (use key.GetHashCode() to calculate the hash function of the key)
+        //          Note:  GetHashCode() returns very large integer numbers, but we need to map this value to the range [0, Entries.Length-1]
         return -1;
     }
 
     public TValue Get(TKey key)
     {
-        //TODO #5:  Using FindKey, find where this key is in the array, and return its value
+        //TODO #5:  Using FindKey, calculate where this key should be in the array of entries. Then, find the item with this key on the list, and return its value
         return default(TValue);
     }
 
     public void Add(TKey key, TValue value)
     {
-        //TODO #5:  Using FindKey, find where this key should be stored in the array
-        //          If the position returned by FindKey is empty, create a new entry there with the given key/value
-        //          If it is not empty (it must be the same key), just update the value
+        //TODO #5:  Using FindKey, calculate where this key should be in the array of entries. Then, look for the item on the list.
+        //          If the item is not found, add a new item to the list with the given key/value
+        //          If the item is found, just update its value
     }
 
     public void Remove(TKey key)
     {
-        //TODO #6: Using FindKey, find where this key is stored in the array. Remove the entry
+        //TODO #6: Using FindKey, calculate where this key should be in the array of entries. Then, look for the item on the list.
+        //          If the item is not found, do nothing
+        //          If the item is found, remove it from the list and return
     }
 }
