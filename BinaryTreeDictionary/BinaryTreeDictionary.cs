@@ -15,7 +15,7 @@ public class BinaryTreeDictionary<TKey, TValue> : Common.IDictionary<TKey, TValu
         //TODO #2: Initialize anything that needs initialization
     }
 
-    public string AsString()
+    public override string ToString()
     {
         //TODO #3: Use the implementation of GenericBinaryTree
         return null;

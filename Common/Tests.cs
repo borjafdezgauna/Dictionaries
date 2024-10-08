@@ -26,10 +26,10 @@ namespace Common
             dictionary.Add(12, "hamabi");
             dictionary.Add(14, "hamalau");
 
-            string asString = dictionary.AsString();
+            string asString = dictionary.ToString();
             if (asString == null)
             {
-                Console.WriteLine($"AsString() is not yet implemented");
+                Console.WriteLine($"ToString() is not yet implemented");
                 return false;
             }    
             for (int i = 1; i < 16; i++)
@@ -43,7 +43,7 @@ namespace Common
             }
             Console.WriteLine("Ok");
 
-            Console.WriteLine($"Initial dictionary:\n{dictionary.AsString()}");
+            Console.WriteLine($"Initial dictionary:\n{dictionary.ToString()}");
 
             Console.Write("Testing Count()...");
             int count = dictionary.Count();

@@ -13,7 +13,7 @@ public class HashTableDictionaryItem<TKey, TValue>
         Value = value;
     }
 
-    public string AsString()
+    public override string ToString()
     {
         if (!Key.Equals(default(TKey)))
             return $"[{Key}->{Value}]\n";
@@ -33,7 +33,7 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         //TODO #2: Initialize Entries with an array of size maxSize
     }
 
-    public string AsString()
+    public override string ToString()
     {
         string output = null;
 
@@ -46,7 +46,7 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         //        for (int j = 0; j < Entries[i].Count(); j++)
         //        {
         //            HashTableDictionaryItem<TKey, TValue> entry = Entries[i].Get(j);
-        //            output += entry.AsString();
+        //            output += entry.ToString();
         //        }
         //    }
         //}
