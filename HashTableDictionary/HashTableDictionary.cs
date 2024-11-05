@@ -86,4 +86,16 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         //          If the item is not found, do nothing
         //          If the item is found, remove it from the list and return
     }
+
+    public TKey[] Keys()
+    {
+        //TODO #8: Return all the keys (not necessarily ordered) in an array
+        return null;
+    }
+
+    public TValue[] Values()
+    {
+        //TODO #9: Return all the values (in the same order as the keys) in an array
+        return null;
+    }
 }

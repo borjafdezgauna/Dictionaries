@@ -7,7 +7,6 @@ public class BinaryTreeDictionary<TKey, TValue> : Common.IDictionary<TKey, TValu
 {
     //TODO #1: Add your implementation of GenericBinaryTree to the project BinaryTreeDictionary and use it to declare the tree we will use for this
     //implementation of a tree:
-
     //public [USE GenericBinaryTree HERE] Tree;
 
     public BinaryTreeDictionary()
@@ -41,5 +40,17 @@ public class BinaryTreeDictionary<TKey, TValue> : Common.IDictionary<TKey, TValu
     public void Remove(TKey key)
     {
         //TODO #7
+    }
+
+    public TKey[] Keys()
+    {
+        //TODO #8
+        return null;
+    }
+
+    public TValue[] Values()
+    {
+        //TODO #9
+        return null;
     }
 }

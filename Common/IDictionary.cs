@@ -10,5 +10,7 @@ namespace Common
         TValue Get(TKey key);
         void Add(TKey key, TValue value);
         void Remove(TKey key);
+        public TKey[] Keys();
+        public TValue[] Values();
     }
 }
