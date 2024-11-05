@@ -26,7 +26,7 @@ namespace Tests
         }
 
         [Fact]
-        public void BinaryTreeDictionaryReaderWriter()
+        public void BinaryTreeReaderWriter()
         {
             BinaryTreeDictionary<string, int> numbers = new BinaryTreeDictionary<string, int>();
             numbers.Add("bat", 1);
@@ -63,7 +63,7 @@ namespace Tests
         }
 
         [Fact]
-        public void HashTableDictionaryReaderWriter()
+        public void HashTableReaderWriter()
         {
             HashTableDictionary<string, int> numbers = new HashTableDictionary<string, int>();
             numbers.Add("bat", 1);
