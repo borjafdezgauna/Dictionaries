@@ -6,6 +6,46 @@ namespace Common
 {
     public static class Tests
     {
+        private static bool CompareDictionaries<TKey, TValue>(Common.IDictionary<TKey, TValue> dictionary1,
+            Common.IDictionary<TKey, TValue> dictionary2, Action<string> onError)
+        {
+            if (dictionary1.Count() != dictionary2.Count())
+            {
+                onError($"The original dictionary and the one read from file have a different number of elements ({dictionary1.Count()} and {dictionary2?.Count()})");
+                return false;
+            }
+
+            foreach (TKey key in dictionary1.Keys())
+            {
+                if (!dictionary1.Get(key).Equals(dictionary2.Get(key)))
+                {
+                    onError($"Different values found for the same key in original dictionary ({dictionary1.Get(key)} and {dictionary2.Get(key)})");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        public static bool TestReaderWriter<TKey, TValue>(IDictionary<TKey, TValue> dictionary,
+            string filename,
+            Func<TKey, string> keyToString, Func<TValue, string> valueToString,
+            Func<string, TKey> stringToKey, Func<string, TValue> stringToValue,
+            Action<string> onError)
+        {
+            DictionaryReaderWriter readerWriter = new DictionaryReaderWriter();
+            bool success = readerWriter.Write(dictionary, filename, (key) => keyToString(key), (value) => valueToString(value));
+            if (!success)
+                onError("Something went wrong writing the dictionary to a file");
+
+            IDictionary<TKey, TValue> readFromFile = (IDictionary<TKey, TValue>)Activator.CreateInstance(dictionary.GetType());
+
+            success = readerWriter.Read(readFromFile, filename, (keyString) => stringToKey(keyString), (valueString) => stringToValue(valueString));
+            if (!success)
+                onError("Something went wrong reading from the file");
+
+            return CompareDictionaries(dictionary, readFromFile, onError);
+        }
         public static bool TestDictionaryIntString(Common.IDictionary<int, string> dictionary)
         {
             //int -> string tests

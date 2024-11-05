@@ -28,7 +28,13 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     //TODO #1: Copy your implementation of GenericList to the project HashTableDictionary and use it to declare Entries: an array of lists of HashTableDictionaryItem<TKey,TValue>
     //[USE GenericList and HashTableDictionaryItem HERE] [] Entries;
 
-    public HashTableDictionary(int maxSize = 100000)
+    public HashTableDictionary() : this(10000)
+    {
+        //This constructor just calls the constructor below with a default value maxSize=10000
+        //No need to do anything here
+    }
+
+    public HashTableDictionary(int maxSize)
     {
         //TODO #2: Initialize Entries with an array of size maxSize
     }
