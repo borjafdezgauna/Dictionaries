@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -9,7 +9,7 @@ namespace Common
     {
         private string EncodeString(string str) => str.Replace("\n", "[NEW_LINE]");
         private string DecodeString(string str) => str.Replace("[NEW_LINE]", "\n");
-        public bool Write<TKey, TValue>(IDictionary<TKey, TValue> dictionary, string filename,
+        public bool Write<TKey,TValue>(IDictionary<TKey,TValue> dictionary, string filename,
             Func<TKey, string> keyToString, Func<TValue, string> valueToString)
         {
             try
@@ -24,7 +24,7 @@ namespace Common
                 //1.35
                 //Because we don't know what type keys and values are, we need to call keyToString(key) to convert the key to string and
                 //valueToString(value) to convert the value to string
-
+                
 
                 writer.Close();
 
@@ -32,9 +32,9 @@ namespace Common
             }
             catch { return false; }
         }
-
+   
         public bool Read<TKey, TValue>(IDictionary<TKey, TValue> dictionary, string filename,
-            Func<string, TKey> stringToKey, Func<string, TValue> valueToKey)
+            Func<string,TKey> stringToKey, Func<string,TValue> valueToKey)
         {
             try
             {
@@ -42,6 +42,7 @@ namespace Common
 
                 //TODO #2: Read the keys and values one by one and add them to the given dictionary. Use the same format as the Write() above
                 //Once a key is read from the file, it needs to be converted to string using stringToKey(line). For the value, valueToKey(line)
+                
 
                 reader.Close();
 

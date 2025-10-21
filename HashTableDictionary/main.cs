@@ -1,5 +1,6 @@
 using Common;
 using System;
+using System.Diagnostics;
 
 class MainClass
 {
@@ -11,14 +12,15 @@ class MainClass
         if (!success)
             return;
 
-        SpeedMeasure speedMeasure = Tests.MeasureSpeed(new HashTableDictionary<int, int>());
-        if (!speedMeasure.Success)
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        success = Tests.TestPerformance(new HashTableDictionary<int, int>());
+        if (!success)
         {
             Console.WriteLine("An error was detected during the speed measurement. Probably something wrong with Add/Get");
             return;
         }
         else
-            Console.WriteLine($"Performance minimum passed. Time: {speedMeasure.Time}s\n\n");
+            Console.WriteLine($"Performance minimum passed. Time: {stopwatch.Elapsed.TotalSeconds}s\n\n");
 
         Console.WriteLine("Testing DictionaryReaderWriter...");
         HashTableDictionary<string, int> numbers = new HashTableDictionary<string, int>();

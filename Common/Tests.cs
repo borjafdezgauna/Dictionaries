@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+
 namespace Common
 {
     public static class Tests
@@ -67,11 +68,6 @@ namespace Common
             dictionary.Add(14, "hamalau");
 
             string asString = dictionary.ToString();
-            if (asString == null)
-            {
-                Console.WriteLine($"ToString() is not yet implemented");
-                return false;
-            }    
             for (int i = 1; i < 16; i++)
             {
                 if (!asString.Contains($"[{i}-"))
@@ -153,7 +149,7 @@ namespace Common
             return true;
 
         }
-        public static SpeedMeasure MeasureSpeed(IDictionary<int, int> dictionary)
+        public static bool TestPerformance(IDictionary<int, int> dictionary)
         {
             Console.WriteLine("Measuring speed");
 
@@ -173,12 +169,12 @@ namespace Common
             foreach (int number in solutions.Keys)
             {
                 if (dictionary.Get(number) != solutions[number])
-                    return new SpeedMeasure() { Success = false };
+                    return false;
 
                 dictionary.Remove(number);
             }
 
-            return new SpeedMeasure() { Success = true, Time = stopwatch.Elapsed.TotalSeconds };
+            return true;
         }
     }
 }

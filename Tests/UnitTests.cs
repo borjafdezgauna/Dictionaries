@@ -1,6 +1,6 @@
 using Common;
 
-namespace Tests
+namespace UnitTests
 {
     public class UnitTests
     {
@@ -15,15 +15,7 @@ namespace Tests
             Assert.True(Common.Tests.TestDictionaryIntString(new HashTableDictionary<int, string>()));
         }
 
-        private void CompareDictionaries<TKey, TValue>(Common.IDictionary<TKey, TValue> dictionary1, Common.IDictionary<TKey, TValue> dictionary2)
-        {
-            Assert.Equal(dictionary1.Count(), dictionary2.Count());
 
-            foreach (TKey key in dictionary1.Keys())
-            {
-                Assert.Equal(dictionary1.Get(key), dictionary2.Get(key));
-            }
-        }
 
         [Fact]
         public void BinaryTreeDictionaryReaderWriter()
