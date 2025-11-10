@@ -5,9 +5,9 @@ using System;
 
 public class BinaryTreeDictionary<TKey, TValue> : Common.IDictionary<TKey, TValue> where TKey : IComparable<TKey>
 {
-    //TODO #1: Add your implementation of GenericBinaryTree to the project BinaryTreeDictionary and use it to declare the tree we will use for this
+    //TODO #1: Add your implementation of BinaryTree to the project BinaryTreeDictionary and use it to declare the tree we will use for this
     //implementation of a tree:
-    //public [USE GenericBinaryTree HERE] Tree;
+    //public [USE BinaryTree HERE] Tree;
     
 
     public BinaryTreeDictionary()
@@ -18,7 +18,7 @@ public class BinaryTreeDictionary<TKey, TValue> : Common.IDictionary<TKey, TValu
 
     public override string ToString()
     {
-        //TODO #3: Use the implementation of GenericBinaryTree
+        //TODO #3: Use the implementation of BinaryTree
         
         return null;
         

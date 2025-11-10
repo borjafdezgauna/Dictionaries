@@ -6,46 +6,34 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        HashTableDictionary<int, string> dictionaryIntString = new HashTableDictionary<int, string>();
         Console.WriteLine("Testing HashTableDictionary<int,string>:\n");
-        bool success = Common.Tests.TestDictionaryIntString(dictionaryIntString);
+        bool success = Common.Tests.Test1_AddGetCount(new HashTableDictionary<int, string>(), Console.WriteLine, Console.WriteLine);
         if (!success)
             return;
 
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        success = Tests.TestPerformance(new HashTableDictionary<int, int>());
+        success = Common.Tests.Test2_AddDuplicate(new HashTableDictionary<int, string>(), Console.WriteLine, Console.WriteLine);
         if (!success)
-        {
-            Console.WriteLine("An error was detected during the speed measurement. Probably something wrong with Add/Get");
             return;
-        }
-        else
-            Console.WriteLine($"Performance minimum passed. Time: {stopwatch.Elapsed.TotalSeconds}s\n\n");
 
-        Console.WriteLine("Testing DictionaryReaderWriter...");
+        success = Common.Tests.Test3_Remove(new HashTableDictionary<int, string>(), Console.WriteLine, Console.WriteLine);
+        if (!success)
+            return;
+
+        success = Common.Tests.Test4_RemoveNonExistent(new HashTableDictionary<int, string>(), Console.WriteLine, Console.WriteLine);
+        if (!success)
+            return;
+
+        success = Common.Tests.TestPerformanceWithTimeout(new HashTableDictionary<int, int>(), Console.WriteLine, Console.WriteLine);
+        if (!success)
+            return;
+
         HashTableDictionary<string, int> numbers = new HashTableDictionary<string, int>();
-        numbers.Add("bat", 1);
-        numbers.Add("zortzi", 8);
-        numbers.Add("hamar", 10);
-        numbers.Add("bederatzi", 9);
-        numbers.Add("zero", 0);
-
-        success = Common.Tests.TestReaderWriter(numbers, "string-to-int-hash.txt", (word) => word, (number) => number.ToString(),
-            (wordString) => wordString, (numberString) => int.Parse(numberString),
-            (message) => { Console.WriteLine(message); });
+        success = Common.Tests.TestReaderWriterStringInt(numbers, "numbers-dictionary-hash-map.txt", Console.WriteLine, Console.WriteLine);
         if (!success)
             return;
 
         HashTableDictionary<int, double> grades = new HashTableDictionary<int, double>();
-        grades.Add(1234, 4.25);
-        grades.Add(2133, 1.35);
-        grades.Add(3312, 8.71);
-        grades.Add(6544, 9.1);
-        grades.Add(7092, 6.25);
-
-        Common.Tests.TestReaderWriter(grades, "int-to-double-hash.txt", (id) => id.ToString(), (grade) => grade.ToString(),
-            (idString) => int.Parse(idString), (gradeString) => double.Parse(gradeString),
-            (message) => { Console.WriteLine(message); });
+        success = Common.Tests.TestReaderWriterIntDouble(grades, "grades-dictionary-hash-map.txt", Console.WriteLine, Console.WriteLine);
         if (!success)
             return;
 

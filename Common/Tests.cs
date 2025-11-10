@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-
+using IntToIntDictionary = System.Collections.Generic.Dictionary<int,int>;
 
 namespace Common
 {
@@ -47,116 +46,192 @@ namespace Common
 
             return CompareDictionaries(dictionary, readFromFile, onError);
         }
-        public static bool TestDictionaryIntString(Common.IDictionary<int, string> dictionary)
+
+        private static bool AddToDictionary(Common.IDictionary<int, string> dictionary,
+            int[] keys, string[] values,
+            Action<string> onProgress, Action<string> onError, bool isDuplicate = false)
+        {
+            int pos = 0;
+            int count = dictionary.Count();
+            foreach (int key in keys)
+            {
+                dictionary.Add(key, values[pos]);
+                string check = dictionary.Get(key);
+                if (check != values[pos])
+                {
+                    onError($"After doing Add({key},\"{values[pos]}\"), Get({key}) returned {check} instead of {values[pos]}");
+                    return false;
+                }
+
+                int newCount = dictionary.Count();
+                int expectedCount = isDuplicate ? count : count + 1;
+                if (expectedCount != newCount)
+                {
+                    onError($"Count returned {newCount} instead of {expectedCount} after Add({key}, {values[pos]})");
+                    return false;
+                }
+                if (!isDuplicate)
+                    count++;
+                pos++;
+            }
+            return true;
+        }
+        
+        private static bool RemoveKeys(Common.IDictionary<int, string> dictionary,
+            int[] keys,
+            Action<string> onProgress, Action<string> onError)
+        {
+            int pos = 0;
+            int count = dictionary.Count();
+            foreach (int key in keys)
+            {
+                dictionary.Remove(key);
+
+                int newCount = dictionary.Count();
+                if (count - 1 != newCount)
+                {
+                    onError($"Count returned {newCount} instead of {count-1} after Remove({key}");
+                    return false;
+                }
+                string check = dictionary.Get(key);
+                if (check != null)
+                {
+                    onError($"Get({key}) returned {check} instead of null after Remove({key}");
+                    return false;
+                }
+                count--;
+                pos++;
+            }
+            return true;
+        }
+
+        public static bool Test1_AddGetCount(Common.IDictionary<int, string> dictionary,
+         Action<string> onProgress, Action<string> onError)
         {
             //int -> string tests
-            Console.Write("Testing Add()...");
-            dictionary.Add(3, "hiru");
-            dictionary.Add(7, "zazpi");
-            dictionary.Add(11, "hamaika");
-            dictionary.Add(2, "bi");
-            dictionary.Add(1, "bat");
-            dictionary.Add(4, "lau");
-            dictionary.Add(15, "hamabost");
-            dictionary.Add(5, "bost");
-            dictionary.Add(13, "hamairu");
-            dictionary.Add(6, "sei");
-            dictionary.Add(8, "zortzi");
-            dictionary.Add(9, "bederatzi");
-            dictionary.Add(10, "hamar");
-            dictionary.Add(12, "hamabi");
-            dictionary.Add(14, "hamalau");
+            onProgress("Testing Add()/Get()/Count()...");
 
-            string asString = dictionary.ToString();
-            for (int i = 1; i < 16; i++)
+            int[] keys = new int[] { 3, 7, 11, 2, 1, 4, 15, 5, 13, 6, 8, 9, 10, 12, 14 };
+            string[] values = new string[]
             {
-                if (!asString.Contains($"[{i}-"))
+                "hiru", "zazpi", "hamaika", "bi", "bat", "lau", "hamabost", "bost","hamairu",
+                "sei", "zortzi", "bederatzi", "hamar", "hamabi", "hamalau"
+            };
+
+            bool success = AddToDictionary(dictionary, keys, values, onProgress, onError);
+            if (!success)
+                return false;
+
+            onProgress("Ok");
+            return true;
+        }
+        public static bool Test2_AddDuplicate(Common.IDictionary<int, string> dictionary,
+         Action<string> onProgress, Action<string> onError)
+        {
+            onProgress("Testing Add() with duplicate keys...");
+
+            int[] keys = new int[] { 3, 7, 11, 2, 1, 4, 15, 5, 13, 6, 8, 9, 10, 12, 14 };
+            string[] values = new string[]
+            {
+                "hiru", "zazpi", "hamaika", "bi", "bat", "lau", "hamabost", "bost","hamairu",
+                "sei", "zortzi", "bederatzi", "hamar", "hamabi", "hamalau"
+            };
+
+            bool success = AddToDictionary(dictionary, keys, values, onProgress, onError);
+            if (!success)
+                return false;
+
+            string[] values2 = new string[]
+            {
+                "three", "seven", "eleven", "two", "one", "four", "fifteen", "five","thirteen",
+                "six", "eight", "nine", "ten", "twelve", "fourteen"
+            };
+
+            AddToDictionary(dictionary, keys, values2, onProgress, onError, true);
+            if (!success)
+                return false;
+
+            onProgress("Ok");
+            return true;
+        }
+
+        public static bool Test3_Remove(Common.IDictionary<int, string> dictionary,
+         Action<string> onProgress, Action<string> onError)
+        {
+            //int -> string tests
+            onProgress("Testing Remove()...");
+
+            int[] keys = new int[] { 3, 7, 11, 2, 1, 4, 15, 5, 13, 6, 8, 9, 10, 12, 14 };
+            string[] values = new string[]
+            {
+                "hiru", "zazpi", "hamaika", "bi", "bat", "lau", "hamabost", "bost","hamairu",
+                "sei", "zortzi", "bederatzi", "hamar", "hamabi", "hamalau"
+            };
+
+            bool success = AddToDictionary(dictionary, keys, values, onProgress, onError);
+            if (!success)
+                return false;
+
+            success = RemoveKeys(dictionary, keys, onProgress, onError);
+            if (!success)
+                return false;
+
+            onProgress("Ok");
+
+            return true;
+        }
+        public static bool Test4_RemoveNonExistent(Common.IDictionary<int, string> dictionary,
+         Action<string> onProgress, Action<string> onError)
+        {
+            //int -> string tests
+            onProgress("Testing Remove()...");
+
+            int[] keys = new int[] { 3, 7, 11, 2, 1, 15, 5, 13, 6, 8, 9, 12, 14 };
+            string[] values = new string[]
+            {
+                "hiru", "zazpi", "hamaika", "bi", "bat", "hamabost", "bost","hamairu",
+                "sei", "zortzi", "bederatzi", "hamabi", "hamalau"
+            };
+
+            bool success = AddToDictionary(dictionary, keys, values, onProgress, onError);
+            if (!success)
+                return false;
+
+            Console.Write("Testing Remove() with non-existing key...");
+            int count = dictionary.Count();
+            foreach (int nonExistentKey in new int[] { 23, -32, 50, 32, 22, 10, 4 })
+            {
+                dictionary.Remove(nonExistentKey);
+
+                int newCount = dictionary.Count();
+                if (count != newCount)
                 {
-                    Console.WriteLine($"Error. Value {i} wasn't added to the dictionary:");
-                    Console.WriteLine(asString);
+                    onError($"Count() returned {newCount} instead of {count} after deleting a key that wasn't in the dictionary");
                     return false;
                 }
             }
-            Console.WriteLine("Ok");
 
-            Console.WriteLine($"Initial dictionary:\n{dictionary.ToString()}");
+            onProgress("Ok");
 
-            Console.Write("Testing Count()...");
-            int count = dictionary.Count();
-            if (count != 15)
-            {
-                Console.WriteLine($"Error. Count() returned {count} instead of 15");
-                return false;
-            }
-            Console.WriteLine("Ok");
-
-            Console.Write("Testing Get()...");
-            string value = dictionary.Get(12);
-            if (value != "hamabi")
-            {
-                Console.WriteLine($"Error. Get(12) returned {value} instead of \"hamabi\"");
-                return false;
-            }
-            value = dictionary.Get(14);
-            if (value != "hamalau")
-            {
-                Console.WriteLine($"Error. Get(14) returned {value} instead of \"hamalau\"");
-                return false;
-            }
-            value = dictionary.Get(4);
-            if (value != "lau")
-            {
-                Console.WriteLine($"Error. Get(4) returned {value} instead of \"lau\"");
-                return false;
-            }
-            Console.WriteLine("Ok");
-
-            Console.Write("Testing Add() with already existing key...");
-            dictionary.Add(6, "six");
-            count = dictionary.Count();
-            if (count != 15 || dictionary.Get(6) != "six")
-            {
-                Console.WriteLine($"Error. Get(6) after Add(6,\"six\") returned \"{dictionary.Get(6)}\" instead of \"six\"");
-                return false;
-            }
-            Console.WriteLine("Ok");
-
-
-            Console.Write("Testing Remove()...");
-            dictionary.Remove(6);
-            int newCount = dictionary.Count();
-            if (count != newCount + 1)
-            {
-                Console.WriteLine($"Error. Remove failed to remove leaf node");
-                return false;
-            }
-            Console.WriteLine("Ok");
-
-            Console.Write("Testing Remove() with non-existing key...");
-            dictionary.Remove(6);
-            newCount = dictionary.Count();
-            int expectedNodeCount = count - 1;
-            if (expectedNodeCount != newCount)
-            {
-                Console.WriteLine($"Error. {newCount} instead of {expectedNodeCount} nodes");
-                return false;
-            }
-            Console.WriteLine("Ok");
-
-
-            Console.WriteLine();
-            Console.WriteLine();
             return true;
 
         }
-        public static bool TestPerformance(IDictionary<int, int> dictionary)
+        
+        public static bool TestPerformanceWithTimeout(IDictionary<int, int> dictionary,
+            Action<string> onProgress, Action<string> onError)
         {
-            Console.WriteLine("Measuring speed");
+            return Common.TimeoutHandler.Test(TestPerformance, dictionary, 1, onProgress, onError);
+        }
+        private static bool TestPerformance(IDictionary<int, int> dictionary,
+            Action<string> onProgress, Action<string> onError)
+        {
+            onProgress("Measuring speed");
 
-            int numSamples = 1000000;
+            int numSamples = 100000;
             Random randomGenerator = new Random();
-            Dictionary<int, int> solutions = new Dictionary<int, int>();
+            IntToIntDictionary solutions = new IntToIntDictionary();
 
+            onProgress($"Adding {numSamples} items");
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             for (int i = 0; i < numSamples; i++)
@@ -166,15 +241,68 @@ namespace Common
                 solutions[number] = number * number;
             }
 
+            onProgress($"Getting back and checking added items");
+
             foreach (int number in solutions.Keys)
             {
                 if (dictionary.Get(number) != solutions[number])
+                {
+                    onError($"Get({number}) returned {dictionary.Get(number)} instead of {solutions[number]}");
                     return false;
+                }
 
                 dictionary.Remove(number);
             }
 
+            onProgress($"Ok");
             return true;
+        }
+
+        public static bool TestReaderWriterStringInt<T>(T dictionary, string filename, Action<string> onProgress,
+            Action<string> onError) where T : Common.IDictionary<string, int>
+        {
+            dictionary.Add("bat", 1);
+            dictionary.Add("zortzi", 8);
+            dictionary.Add("hamar", 10);
+            dictionary.Add("bederatzi", 9);
+            dictionary.Add("zero", 0);
+
+            return Common.Tests.TestReaderWriter(dictionary, filename, (word) => word, (number) => number.ToString(),
+                (wordString) => wordString, (numberString) => int.Parse(numberString),
+                (message) => onError(message));
+
+        }
+        public static bool TestReaderWriterIntDouble<T>(T dictionary, string filename, Action<string> onProgress,
+            Action<string> onError) where T : Common.IDictionary<int, double>
+        {
+            dictionary.Add(1234, 4.25);
+            dictionary.Add(2133, 1.35);
+            dictionary.Add(3312, 8.71);
+            dictionary.Add(6544, 9.1);
+            dictionary.Add(7092, 6.25);
+
+            return Common.Tests.TestReaderWriter(dictionary, filename, (id) => id.ToString(), (grade) => grade.ToString(),
+                (idString) => int.Parse(idString), (gradeString) => double.Parse(gradeString),
+                (message) => onError(message));
+        }
+        public static bool TestReaderWriterSpecialCharacters<T>(T dictionary1, T dictionary2, string filename,
+            Action<string> onError) where T : Common.IDictionary<string, string>
+        {
+            dictionary1.Add("Izen-a:\nJacinto", "Nombre:[Ja-cinto]");
+            dictionary1.Add("Abi zena:\nRamírez", "Ape_llido:Ramírez");
+
+            DictionaryReaderWriter readerWriter = new DictionaryReaderWriter();
+            bool success = readerWriter.Write(dictionary1, filename, (word) => word, (word) => word);
+            if (!success)
+                return false;
+
+            success = readerWriter.Read(dictionary2, filename, (word) => word, (word) => word);
+            if (!success)
+                return false;
+
+            return Common.Tests.TestReaderWriter(dictionary2, filename, (word) => word, (word) => word,
+                (word) => word, (word) => word,
+                (message) => onError(message));
         }
     }
 }

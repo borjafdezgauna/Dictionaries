@@ -4,15 +4,22 @@ using System;
 
 public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {
+    int DefaultNumEntries = 10000;
     int NumElements = 0;
     //TODO #1: Copy your implementation of GenericList to the project HashTableDictionary and use it to declare Entries: an array of lists of HashTableDictionaryItem<TKey,TValue>
     //[USE GenericList and HashTableDictionaryItem HERE] [] Entries;
     
 
-   
-    public HashTableDictionary(int maxSize = 10000)
+
+    public HashTableDictionary()
     {
-        //TODO #2: Initialize Entries with an array of size maxSize
+        //TODO #2: Initialize Entries with an array of size DefaultNumEntries
+        
+    }
+    
+     public HashTableDictionary(int numEntries)
+    {
+        //TODO #2: Initialize Entries with a specific number of entries (numEntries)
         
     }
 
