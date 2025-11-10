@@ -25,6 +25,10 @@ class MainClass
         if (!success)
             return;
 
+        success = Common.Tests.Test5_KeysValues(new BinaryTreeDictionary<int, string>(), Console.WriteLine, Console.WriteLine);
+        if (!success)
+            return;
+
         success = Tests.TestPerformanceWithTimeout(new BinaryTreeDictionary<int,int>(), Console.WriteLine, Console.WriteLine);
         if (!success)
             return;

@@ -23,6 +23,10 @@ class MainClass
         if (!success)
             return;
 
+        success = Common.Tests.Test5_KeysValues(new HashTableDictionary<int, string>(), Console.WriteLine, Console.WriteLine);
+        if (!success)
+            return;
+
         success = Common.Tests.TestPerformanceWithTimeout(new HashTableDictionary<int, int>(), Console.WriteLine, Console.WriteLine);
         if (!success)
             return;

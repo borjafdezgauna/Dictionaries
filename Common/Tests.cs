@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using IntToIntDictionary = System.Collections.Generic.Dictionary<int,int>;
 
 namespace Common
@@ -207,6 +208,72 @@ namespace Common
                 if (count != newCount)
                 {
                     onError($"Count() returned {newCount} instead of {count} after deleting a key that wasn't in the dictionary");
+                    return false;
+                }
+            }
+
+            onProgress("Ok");
+
+            return true;
+
+        }
+
+        public static bool Test5_KeysValues(Common.IDictionary<int, string> dictionary,
+         Action<string> onProgress, Action<string> onError)
+        {
+            //int -> string tests
+            onProgress("Testing Keys()/Values()...");
+
+            int[] keys = new int[] { 3, 7, 11, 2, 1, 15, 5, 13, 6, 8, 9, 12, 14 };
+            string[] values = new string[]
+            {
+                "hiru", "zazpi", "hamaika", "bi", "bat", "hamabost", "bost","hamairu",
+                "sei", "zortzi", "bederatzi", "hamabi", "hamalau"
+            };
+
+            int[] keys2 = dictionary.Keys();
+            if (keys2 == null)
+            {
+                onError("Keys() returned null for an empty IDictionary. It should return an array of size 0");
+                return false;
+            }
+            string[] values2 = dictionary.Values();
+            if (values2 == null)
+            {
+                onError("Values() returned null for an empty IDictionary. It should return an array of size 0");
+                return false;
+            }
+
+            bool success = AddToDictionary(dictionary, keys, values, onProgress, onError);
+            if (!success)
+                return false;
+
+            keys2 = dictionary.Keys();
+            if (keys2?.Length != keys.Length)
+            {
+                onError($"Keys() returned an array of size {keys2.Length} instead of {keys.Length}");
+                return false;
+            }
+            values2 = dictionary.Values();
+            if (values2 == null)
+            {
+                onError($"Values() returned an array of size {values2.Length} instead of {values.Length}");
+                return false;
+            }
+            foreach (int key in keys)
+            {
+                if (!keys2.Contains(key))
+                {
+                    onError($"The key {key} is not in the array returned by Keys()");
+                    return false;
+                }
+            }
+
+            foreach (string value in values)
+            {
+                if (!values2.Contains(value))
+                {
+                    onError($"The value {value} is not in the array returned by Keys()");
                     return false;
                 }
             }

@@ -5,8 +5,9 @@ using System;
 
 public class BinaryTreeDictionary<TKey, TValue> : Common.IDictionary<TKey, TValue> where TKey : IComparable<TKey>
 {
-    //TODO #1: Add your implementation of BinaryTree to the project BinaryTreeDictionary and use it to declare the tree we will use for this
-    //implementation of a tree:
+    //TODO #1: Add your implementation of BinaryTree/BinaryTreeNode to the project 
+    //         BinaryTreeDictionary and declare the tree we will use in this class:
+    //
     //public [USE BinaryTree HERE] Tree;
     
 

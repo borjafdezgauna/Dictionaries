@@ -6,8 +6,8 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {
     int DefaultNumEntries = 10000;
     int NumElements = 0;
-    //TODO #1: Copy your implementation of GenericList to the project HashTableDictionary and use it to declare Entries: an array of lists of HashTableDictionaryItem<TKey,TValue>
-    //[USE GenericList and HashTableDictionaryItem HERE] [] Entries;
+    //TODO #1: Copy your implementation of List to the project HashTableDictionary and use it to declare Entries: an array of lists of HashTableDictionaryItem<TKey,TValue>
+    //[USE List and HashTableDictionaryItem HERE] [] Entries;
     
 
 
@@ -65,7 +65,7 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     public TValue Get(TKey key)
     {
         //TODO #5:  Using PositionOf, calculate where this key should be in the array of entries and, then,
-        //find the item with this key on the list, and return its value
+        //          find the item with this key on the list, and return its value
         
         return default(TValue);
     }
@@ -73,22 +73,23 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     public void Add(TKey key, TValue value)
     {
         //TODO #5:  Using PositionOf, calculate where this key should be in the array of entries. Then, look for the item on the list.
-        //          If the item is not found, add a new item to the list with the given key/value
-        //          If the item is found, just update its value
+        //          - If the item is not found, add a new item to the list with the given key/value
+        //          - If the item is found, just update its value
         
     }
 
     public void Remove(TKey key)
     {
         //TODO #6: Using Position, calculate where this key should be in the array of entries. Then, look for the item on the list.
-        //          If the item is not found, do nothing
-        //          If the item is found, remove it from the list and return
+        //         - If the item is not found, do nothing
+        //         - If the item is found, remove it from the list and return
         
     }
 
     public TKey[] Keys()
     {
         //TODO #8: Return all the keys (not necessarily ordered) in an array
+        //         If there is no element, it should return an empty array (size=0)
         
         return null;
         
@@ -97,6 +98,7 @@ public class HashTableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     public TValue[] Values()
     {
         //TODO #9: Return all the values (in the same order as the keys) in an array
+        //         If there is no element, it should return an empty array (size=0)
         
         return null;
         
